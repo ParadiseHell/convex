@@ -1,0 +1,3 @@
+rootProject.name = "Convex"
+include ':app'
+include ':convex'
