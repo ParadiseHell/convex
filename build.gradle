@@ -7,16 +7,131 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
     }
 }
 
-allprojects {
+apply plugin: 'io.codearte.nexus-staging'
+
+def OSSRH_USERNAME = project.properties["OSSRH_USERNAME"] ?: System.getenv("OSSRH_USERNAME")
+def OSSRH_PASSWORD = project.properties["OSSRH_PASSWORD"] ?: System.getenv("OSSRH_PASSWORD")
+
+nexusStaging {
+    serverUrl = "https://s01.oss.sonatype.org/service/local/"
+    packageGroup = "org.paradisehell"
+    username = OSSRH_USERNAME
+    password = OSSRH_PASSWORD
+}
+
+allprojects { project ->
+
     repositories {
         google()
         mavenCentral()
     }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    project.group = "org.paradisehell.convex"
+    project.version = "0.0.1"
+
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    signing {
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    project.afterEvaluate {
+        def isRootProject = project.name == rootProject.name
+        def isAndroidApplication = project.plugins.hasPlugin("com.android.application")
+        def isAndroidLibrary = project.plugins.hasPlugin("com.android.library")
+        if (isRootProject || isAndroidApplication) {
+            return
+        }
+
+        if (isAndroidLibrary) {
+            task javadoc(type: Javadoc) {
+                failOnError false
+                source = android.sourceSets.main.java.sourceFiles
+                classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+                classpath += configurations.compile
+            }
+
+            task javadocJar(type: Jar, dependsOn: javadoc) {
+                archiveClassifier.set("javadoc")
+                from javadoc.destinationDir
+            }
+        } else {
+            task javadocJar(type: Jar) {
+                archiveClassifier.set("javadoc")
+                from javadoc
+            }
+        }
+
+        task sourcesJar(type: Jar) {
+            archiveClassifier.set("sources")
+            if (isAndroidLibrary) {
+                from android.sourceSets.main.java.srcDirs
+            } else {
+                from sourceSets.main.allSource
+            }
+        }
+
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
+
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                    repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: OSSRH_USERNAME, password: OSSRH_PASSWORD)
+                    }
+
+                    snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                        authentication(userName: OSSRH_USERNAME, password: OSSRH_PASSWORD)
+                    }
+
+                    pom.project {
+                        groupId project.group
+                        artifactId project.name
+                        version project.version
+
+                        name project.name
+
+                        if (isAndroidLibrary) {
+                            packaging 'aar'
+                        } else {
+                            packaging 'jar'
+                        }
+
+                        description project.name
+                        url 'https://github.com/ParadiseHell/convex'
+
+                        licenses {
+                            license {
+                                name 'The Apache License, Version 2.0'
+                                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                name 'ChengTao'
+                                email 'tao@paradisehell.org'
+                            }
+                        }
+
+                        scm {
+                            connection 'scm:git:git://github.com/ParadiseHell/convex.git'
+                            developerConnection 'scm:git:ssh://github.com:ParadiseHell/convex.git'
+                            url 'https://github.com/ParadiseHell/convex'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
