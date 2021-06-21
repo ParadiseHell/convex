@@ -1,0 +1,33 @@
+name: Publishing
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '8'
+
+    - name: Publish to sonatype
+      run: |
+        echo "Create GPG secret key"
+        echo $GPG_RING_FILE | base64 --decode > $GITHUB_WORKSPACE/secring.gpg
+        ./gradlew clean uploadArchives -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSWORD} -Psigning.secretKeyRingFile=${GITHUB_WORKSPACE}/secring.gpg --no-daemon 
+        ./gradlew closeAndReleaseRepository --no-daemon
+      env:
+        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+        GPG_KEY_PASSWORD: ${{ secrets.GPG_KEY_PASSWORD }}
+        GPG_RING_FILE: ${{ secrets.GPG_RING_FILE }}
