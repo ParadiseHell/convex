@@ -1,8 +1,8 @@
 ![Convex](static/Convex.png)
 
 # Override
-Convex is a tool based on [Retrofit](https://github.com/square/retrofit) help
-developers to foucs on business data.
+Convex is an elegant tool based on [Retrofit](https://github.com/square/retrofit)
+to help developers just focus on business data.
 
 # Background
 Lots of Restful APIs' responses are designed following :
@@ -15,15 +15,6 @@ Lots of Restful APIs' responses are designed following :
 }
 ```
 
-or
-
-```json
-{
-	"code" : 0,
-	"errorMsg" : "",
-	"data" : {}
-}
-```
 or
 
 ```json
@@ -50,7 +41,8 @@ data class BaseResponse<T>(
 )
 ```
 
-And when define a service method following :
+And when define a service method they need to wrap business data with
+**BaseReponse** following :
 
 ```kotlin
 interface XXXService {
@@ -59,10 +51,15 @@ interface XXXService {
 }
 ```
 
-Handing **BaseResponse** is really boring and repetitive, so is there a way to
-just handle **BaseResponse** only once?
+# Thoughts
 
-So **Convex** comes out.
+Handing **BaseResponse** is really boring and repetitive.😖
+
+Is there a way to just handle **BaseResponse** only once?🤔
+
+Is there a way to remove the business data wraper **BaseResponse**?🤔
+
+So **Convex** comes out.🎉 🎉 🎉
 
 # How to use
 
