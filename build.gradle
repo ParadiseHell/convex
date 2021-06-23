@@ -3,11 +3,15 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
+        // booster
+        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
+        classpath "org.paradisehell.convex:convex-booster-transformer:0.0.2"
     }
 }
 
@@ -28,6 +32,7 @@ allprojects { project ->
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 
     project.group = "org.paradisehell.convex"

@@ -11,9 +11,6 @@ import org.objectweb.asm.tree.ClassNode
 class ConvexTransformer : ClassTransformer {
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         return klass.takeIf { it.isInterface }?.visibleAnnotations
-            ?.onEach {
-                println("AnnotationNode : ${it.desc}")
-            }
             ?.firstOrNull { it.desc == TRANSFORMER_DEC }
             ?.let {
                 addTransformerAnnotationToServiceMethod(klass, it)
@@ -24,6 +21,10 @@ class ConvexTransformer : ClassTransformer {
         klass: ClassNode,
         transformerAnnotation: AnnotationNode
     ): ClassNode {
+        println(
+            "Service [${klass.name.replace("/", ".")}] " +
+                    "add @Transformer annotation to its methods."
+        )
         klass.methods
             .filter { method ->
                 method.visibleAnnotations.none { it.desc == TRANSFORMER_DEC }
@@ -35,6 +36,6 @@ class ConvexTransformer : ClassTransformer {
     }
 
     companion object {
-        private const val TRANSFORMER_DEC = "org.paradisehell.convex.annotation.Transformer"
+        private const val TRANSFORMER_DEC = "Lorg/paradisehell/convex/annotation/Transformer;"
     }
 }
