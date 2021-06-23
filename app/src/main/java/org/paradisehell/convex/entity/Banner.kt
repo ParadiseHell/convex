@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.paradisehell.convex.service
+package org.paradisehell.convex.entity
 
-import org.paradisehell.convex.annotation.Transformer
-import org.paradisehell.convex.entity.Article
-import org.paradisehell.convex.entity.Banner
-import org.paradisehell.convex.transformer.WanAndroidConvexTransformer
-import retrofit2.http.GET
+import com.google.gson.annotations.SerializedName
 
 
 /**
  *
  * @author Tao Cheng (tao@paradisehell.org)
  */
-@Transformer(WanAndroidConvexTransformer::class)
-interface WanAndroidService {
-    @GET("/article/top/json")
-    suspend fun getTopArticles(): List<Article>
-
-    @GET("/banner/json")
-    suspend fun getBanners(): List<Banner>
+data class Banner(
+    @SerializedName("id")
+    val id: Int = 0,
+    @SerializedName("desc")
+    val desc: String,
+    @SerializedName("imagePath")
+    val imagePath: String,
+    @SerializedName("title")
+    val title: String
+) {
 }

@@ -22,9 +22,13 @@ import com.google.gson.annotations.SerializedName
  *
  * @author Tao Cheng (tao@paradisehell.org)
  */
-data class WeChatArticle(
+data class Article(
     @SerializedName("id")
     val id: Int = 0,
-    @SerializedName("name")
-    val name: String? = null
+    @SerializedName("link")
+    val link: String? = null,
+    @SerializedName("author")
+    val author: String? = null,
+    @SerializedName("superChapterName")
+    val superChapterName: String? = null
 )
