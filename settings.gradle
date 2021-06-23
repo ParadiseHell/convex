@@ -1,3 +1,4 @@
 rootProject.name = "Convex"
 include ':app'
 include ':convex'
+include ':convex-booster-transformer'
