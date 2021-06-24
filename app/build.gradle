@@ -42,8 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation project(":convex")
-    //implementation "${project.group}:convex:${project.version}"
+    //implementation project(":convex")
+    implementation "${project.group}:convex:${project.version}"
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
