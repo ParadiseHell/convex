@@ -151,7 +151,7 @@ plugins {
 or 
 
 ```
-apply from: "com.didiglobal.booster"
+apply plugin: "com.didiglobal.booster"
 ```
 
 ### Define service with `Transformer` annotation
