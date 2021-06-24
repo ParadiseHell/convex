@@ -112,7 +112,7 @@ Retrofit.Builder()
 interface XXXService {
 	@GET("xxx")
 	@Transformer(XXXConvexTransformer::class)
-	suspend fun xxx() : XXX // No BaseReponse is needed anymore.👻👻👻
+	suspend fun xxx() : XXX /**No BaseReponse is needed anymore.👻👻👻*/
 }
 ```
 
@@ -133,7 +133,7 @@ buildscript {
     dependencies {
         // booster
         classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
-		// convex-booster
+        // convex-booster
         classpath "org.paradisehell.convex:convex-booster:0.0.3"
     }
 }
@@ -160,7 +160,7 @@ apply from: "com.didiglobal.booster"
 @Transformer(XXXConvexTransformer::class)
 interface XXXService {
 	@GET("xxx")
-	suspend fun xxx() : XXX // No BaseReponse is needed anymore.👻👻👻
+	suspend fun xxx() : XXX /**No BaseReponse is needed anymore.👻👻👻*/
 }
 ```
 
