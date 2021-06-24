@@ -112,7 +112,7 @@ Retrofit.Builder()
 interface XXXService {
 	@GET("xxx")
 	@Transformer(XXXConvexTransformer::class)
-	suspend fun xxx() : XXX /**No BaseReponse is needed anymore.👻👻👻*/
+	suspend fun xxx() : XXX // No BaseResponse is needed anymore.👻👻👻
 }
 ```
 
@@ -160,7 +160,7 @@ apply from: "com.didiglobal.booster"
 @Transformer(XXXConvexTransformer::class)
 interface XXXService {
 	@GET("xxx")
-	suspend fun xxx() : XXX /**No BaseReponse is needed anymore.👻👻👻*/
+	suspend fun xxx() : XXX // No BaseResponse is needed anymore.👻👻👻
 }
 ```
 
