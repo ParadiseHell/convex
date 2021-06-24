@@ -3,11 +3,15 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
+        // booster
+        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
+        classpath "org.paradisehell.convex:convex-booster:0.0.3"
     }
 }
 
@@ -28,18 +32,14 @@ allprojects { project ->
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 
     project.group = "org.paradisehell.convex"
-    project.version = "0.0.2"
+    project.version = "0.0.3"
 
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     apply plugin: 'signing'
-
-    signing {
-        required { gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
-    }
 
     project.afterEvaluate {
         def isRootProject = project.name == rootProject.name
@@ -77,61 +77,78 @@ allprojects { project ->
             }
         }
 
-        artifacts {
-            archives javadocJar, sourcesJar
-        }
+        publishing {
+            publications {
+                maven(MavenPublication) {
+                    groupId project.group
+                    artifactId project.name
+                    version project.version
 
-        uploadArchives {
-            repositories {
-                mavenDeployer {
-                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                    repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                        authentication(userName: OSSRH_USERNAME, password: OSSRH_PASSWORD)
+                    if (isAndroidLibrary) {
+                        from components.release
+                    } else {
+                        from components.java
                     }
+                    artifact sourcesJar
+                    artifact javadocJar
 
-                    snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                        authentication(userName: OSSRH_USERNAME, password: OSSRH_PASSWORD)
-                    }
-
-                    pom.project {
-                        groupId project.group
-                        artifactId project.name
-                        version project.version
-
-                        name project.name
+                    pom {
+                        name = project.name
+                        description = project.name
+                        url = 'https://github.com/ParadiseHell/convex'
 
                         if (isAndroidLibrary) {
-                            packaging 'aar'
+                            packaging = 'aar'
                         } else {
-                            packaging 'jar'
+                            packaging = 'jar'
                         }
-
-                        description project.name
-                        url 'https://github.com/ParadiseHell/convex'
 
                         licenses {
                             license {
-                                name 'The Apache License, Version 2.0'
-                                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                                name = 'The Apache License, Version 2.0'
+                                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                             }
                         }
 
                         developers {
                             developer {
-                                name 'ChengTao'
-                                email 'tao@paradisehell.org'
+                                name = 'ChengTao'
+                                email = 'tao@paradisehell.org'
                             }
                         }
 
                         scm {
-                            connection 'scm:git:git://github.com/ParadiseHell/convex.git'
-                            developerConnection 'scm:git:ssh://github.com:ParadiseHell/convex.git'
-                            url 'https://github.com/ParadiseHell/convex'
+                            connection = 'scm:git:git://github.com/ParadiseHell/convex.git'
+                            developerConnection = 'scm:git:ssh://github.com:ParadiseHell/convex.git'
+                            url = 'https://github.com/ParadiseHell/convex'
                         }
                     }
                 }
             }
+
+            repositories {
+                maven {
+                    name = "staging"
+                    url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                    credentials {
+                        username = OSSRH_USERNAME
+                        password = OSSRH_PASSWORD
+                    }
+                }
+
+                maven {
+                    name = "snapshots"
+                    url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                    credentials {
+                        username = OSSRH_USERNAME
+                        password = OSSRH_PASSWORD
+                    }
+                }
+            }
+        }
+
+        signing {
+            sign publishing.publications.maven
         }
     }
 }

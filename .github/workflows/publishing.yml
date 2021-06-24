@@ -23,7 +23,7 @@ jobs:
       run: |
         echo "Create GPG secret key"
         echo $GPG_RING_FILE | base64 --decode > $GITHUB_WORKSPACE/secring.gpg
-        ./gradlew clean uploadArchives -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSWORD} -Psigning.secretKeyRingFile=${GITHUB_WORKSPACE}/secring.gpg --no-daemon 
+        ./gradlew clean publishMavenPublicationToStagingRepository -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSWORD} -Psigning.secretKeyRingFile=${GITHUB_WORKSPACE}/secring.gpg --no-daemon 
         ./gradlew closeAndReleaseRepository --no-daemon
       env:
         OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
