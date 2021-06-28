@@ -23,6 +23,27 @@ object Convex {
     }
 
     /**
+     * Get a [ConvexTransformer] by its class
+     *
+     * @return a [ConvexTransformer] or null if it doesn't exist.
+     */
+    fun getConvexTransformer(clazz: Class<out ConvexTransformer>): ConvexTransformer {
+        transformers[clazz]?.let {
+            return it
+        }
+        return try {
+            clazz.getDeclaredConstructor().newInstance().also {
+                transformers[clazz] = it
+            }
+        } catch (e: Exception) {
+            throw IllegalStateException(
+                "Cannot find ${clazz.name} from Convex, " +
+                        "please call Convex#addConvexTransformer first."
+            )
+        }
+    }
+
+    /**
      * Get all [ConvexTransformer]s
      *
      * @return A list of [ConvexTransformer]
