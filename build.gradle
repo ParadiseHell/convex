@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = "1.5.0"
+    ext.kotlin_version = "1.5.20"
     ext.convex_group = "org.paradisehell.convex"
     ext.convex_version = "0.0.3"
     repositories {
@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.0"
+        classpath "com.android.tools.build:gradle:4.2.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
         // booster

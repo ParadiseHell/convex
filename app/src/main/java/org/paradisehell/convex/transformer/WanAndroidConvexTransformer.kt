@@ -18,6 +18,7 @@ package org.paradisehell.convex.transformer
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
+import org.paradisehell.convex.annotation.AutoTransformer
 import org.paradisehell.convex.entity.BaseResponse
 import java.io.IOException
 import java.io.InputStream
@@ -27,6 +28,7 @@ import java.io.InputStream
  *
  * @author Tao Cheng (tao@paradisehell.org)
  */
+@AutoTransformer
 class WanAndroidConvexTransformer : ConvexTransformer {
     private val gson = Gson()
 
