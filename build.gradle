@@ -87,7 +87,7 @@ allprojects { project ->
                     version project.version
 
                     if (isAndroidLibrary) {
-                        from components.release
+                        //from components.release
                     } else {
                         from components.java
                     }

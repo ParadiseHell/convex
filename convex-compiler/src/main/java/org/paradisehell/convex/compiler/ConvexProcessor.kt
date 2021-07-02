@@ -99,7 +99,7 @@ class ConvexProcessor : AbstractProcessor() {
         }
         // Log all found ConvexTransformers
         val allTransformers = transformers + oldTransformers
-        info("Found ${allTransformers.size} ConvexTransformers as following :")
+        info("Found ${allTransformers.size} ConvexTransformers :")
         allTransformers.forEachIndexed { index, transformer ->
             info("${index + 1}. $transformer")
         }

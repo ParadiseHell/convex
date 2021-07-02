@@ -28,12 +28,11 @@ object Convex {
      * @return a [ConvexTransformer] or null if it doesn't exist.
      */
     fun getConvexTransformer(clazz: Class<out ConvexTransformer>): ConvexTransformer {
-        transformers[clazz]?.let {
-            return it
-        }
         return try {
-            clazz.getDeclaredConstructor().newInstance().also {
-                transformers[clazz] = it
+            transformers.getOrPut(clazz) {
+                clazz.getDeclaredConstructor().newInstance().also {
+                    transformers[clazz] = it
+                }
             }
         } catch (e: Exception) {
             throw IllegalStateException(

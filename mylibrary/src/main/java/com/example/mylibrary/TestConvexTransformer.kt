@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.paradisehell.convex
 
-import android.app.Application
+package com.example.mylibrary
 
+import org.paradisehell.convex.annotation.AutoTransformer
+import org.paradisehell.convex.transformer.ConvexTransformer
+import java.io.InputStream
 
 /**
- *
  * @author Tao Cheng (tao@paradisehell.org)
  */
-class App : Application() {
+@AutoTransformer
+class TestConvexTransformer : ConvexTransformer {
+    override fun transform(original: InputStream): InputStream {
+        return original
+    }
 }
