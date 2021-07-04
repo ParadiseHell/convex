@@ -51,6 +51,9 @@ allprojects { project ->
         if (isRootProject || isAndroidApplication) {
             return
         }
+        if (project.name == "mylibrary") {
+            return
+        }
 
         if (isAndroidLibrary) {
             task javadoc(type: Javadoc) {
