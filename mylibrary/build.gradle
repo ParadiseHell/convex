@@ -33,6 +33,12 @@ android {
     }
 }
 
+kapt {
+    arguments {
+        arg("verbose", "true")
+    }
+}
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

@@ -1,16 +1,17 @@
 buildscript {
-    ext.kotlin_version = "1.5.20"
+    ext.kotlin_version = "1.5.10"
     ext.convex_group = "org.paradisehell.convex"
-    ext.convex_version = "0.0.3"
+    ext.convex_version = "0.0.5"
     repositories {
         mavenLocal()
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.1"
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
+        classpath "io.johnsonlee.buildprops:buildprops-gradle-plugin:1.1.0"
         // booster
         classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
         classpath "${convex_group}:convex-booster:${convex_version}"

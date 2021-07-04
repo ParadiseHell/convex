@@ -116,12 +116,12 @@ class ConvexProcessor : AbstractProcessor() {
 
     private fun info(content: String) {
         if (verbose) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "$content\n")
+            messager.printMessage(Diagnostic.Kind.NOTE, "$content\r\n")
         }
     }
 
     private fun error(content: String) {
-        messager.printMessage(Diagnostic.Kind.ERROR, "$content\n")
+        messager.printMessage(Diagnostic.Kind.ERROR, "$content\r\n")
     }
 
     companion object {

@@ -24,6 +24,7 @@ import com.didiglobal.booster.gradle.project
 import com.didiglobal.booster.task.spi.VariantProcessor
 import com.google.auto.service.AutoService
 import org.gradle.api.tasks.compile.JavaCompile
+import org.paradisehell.convex.booster.Build
 import org.paradisehell.convex.booster.task.GenerateConvexRegistryTask
 
 /**
@@ -33,6 +34,7 @@ import org.paradisehell.convex.booster.task.GenerateConvexRegistryTask
 @AutoService(VariantProcessor::class)
 class AutoTransformerVariantProcessor : VariantProcessor {
     override fun process(variant: BaseVariant) {
+        variant.project.dependencies.add("kapt", "${Build.GROUP}:convex-compiler:${Build.VERSION}")
         if (variant !is ApplicationVariant) {
             return
         }
