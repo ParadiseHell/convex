@@ -74,7 +74,7 @@ In your build.gradle :
 
 ```gradle
 dependencies {
-    implementation "org.paradisehell.convex:convex:0.0.3"
+    implementation "org.paradisehell.convex:convex:1.0.0"
 }
 ```
 
@@ -87,12 +87,6 @@ private class XXXConvexTransformer : ConvexTransformer {
 		TODO("Return the business data InputStream.")
 	}
 }
-```
-
-### Register ConvexTransformer
-
-```kotlin
-Convex.registerConvexTransformer(XXXConvexTransformer())
 ```
 
 ### Add ConvexConverterFactory to Retrofit
@@ -134,7 +128,7 @@ buildscript {
         // booster
         classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
         // convex-booster
-        classpath "org.paradisehell.convex:convex-booster:0.0.3"
+        classpath "org.paradisehell.convex:convex-booster:1.0.0"
     }
 }
 ```
