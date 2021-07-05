@@ -37,16 +37,8 @@ open class ConvexConverter<T> constructor(
     @Suppress("UNCHECKED_CAST")
     @Throws(IOException::class)
     override fun convert(value: ResponseBody): T? {
-        return Convex.getConvexTransformers()
-            .find { it::class.java == transformerClazz.java }
-            .also {
-                if (it == null) {
-                    throw IOException(
-                        "Cannot find ${transformerClazz.java.name} from Convex, " +
-                                "please call Convex#addConvexTransformer first."
-                    )
-                }
-            }?.let { transformer ->
+        return Convex.getConvexTransformer(transformerClazz.java)
+            .let { transformer ->
                 transformer.transform(value.byteStream()).let { responseStream ->
                     ResponseBody.create(value.contentType(), responseStream.readBytes())
                 }

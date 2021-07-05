@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.paradisehell.convex
 
-import android.app.Application
-
-
 /**
- *
  * @author Tao Cheng (tao@paradisehell.org)
  */
-class App : Application() {
-}
+internal const val CONVEX_REGISTRY = "org.paradisehell.convex.ConvexRegistry"
+
+internal const val CONVEX_TRANSFORMER = "org.paradisehell.convex.transformer.ConvexTransformer"
+
+internal const val FILED_REGISTRY = "REGISTRY"
+
+internal fun String.toInternalName() = this.replace(".", "/")

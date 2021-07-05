@@ -13,37 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.paradisehell.convex.transformer
 
-import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.reflect.TypeToken
+package com.example.mylibrary
+
 import org.paradisehell.convex.annotation.AutoTransformer
-import org.paradisehell.convex.entity.BaseResponse
-import java.io.IOException
+import org.paradisehell.convex.transformer.ConvexTransformer
 import java.io.InputStream
 
-
 /**
- *
  * @author Tao Cheng (tao@paradisehell.org)
  */
 @AutoTransformer
-class WanAndroidConvexTransformer : ConvexTransformer {
-    private val gson = Gson()
-
-    @Throws(IOException::class)
+class TestConvexTransformer : ConvexTransformer {
     override fun transform(original: InputStream): InputStream {
-        val response = gson.fromJson<BaseResponse<JsonElement>>(
-            original.reader(),
-            object : TypeToken<BaseResponse<JsonElement>>() {
-            }.type
-        )
-        if (response.errorCode == 0 && response.data != null) {
-            return response.data.toString().byteInputStream()
-        }
-        throw IOException(
-            "errorCode : " + response.errorCode + " ; errorMsg : " + response.errorMsg
-        )
+        return original
     }
 }

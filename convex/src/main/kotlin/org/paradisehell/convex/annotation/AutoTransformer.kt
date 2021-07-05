@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.paradisehell.convex
 
-import android.app.Application
+package org.paradisehell.convex.annotation
 
+import org.paradisehell.convex.Convex
 
 /**
+ * A class with [AutoTransformer] annotation will be registered into [Convex]
  *
  * @author Tao Cheng (tao@paradisehell.org)
  */
-class App : Application() {
-}
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.BINARY)
+annotation class AutoTransformer

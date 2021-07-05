@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'kotlin'
     id 'kotlin-kapt'
+    id 'io.johnsonlee.buildprops'
 }
 
 java {
@@ -10,7 +11,12 @@ java {
 }
 
 dependencies {
+    implementation(gradleApi())
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    kapt "com.google.auto.service:auto-service:1.0-rc6"
+    kapt "com.google.auto.service:auto-service:1.0"
+    implementation "com.didiglobal.booster:booster-android-gradle-api:3.3.1"
     implementation "com.didiglobal.booster:booster-transform-asm:3.3.1"
+    implementation "com.didiglobal.booster:booster-task-spi:3.3.1"
+    implementation "com.didiglobal.booster:booster-transform-util:3.3.1"
+    compileOnly 'com.android.tools.build:gradle:4.2.1'
 }

@@ -1,17 +1,20 @@
 buildscript {
-    ext.kotlin_version = "1.5.0"
+    ext.kotlin_version = "1.5.10"
+    ext.convex_group = "org.paradisehell.convex"
+    ext.convex_version = "1.0.0"
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        mavenLocal()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.0"
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
+        classpath "io.johnsonlee.buildprops:buildprops-gradle-plugin:1.1.0"
         // booster
         classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
-        classpath "org.paradisehell.convex:convex-booster:0.0.3"
+        classpath "${convex_group}:convex-booster:${convex_version}"
     }
 }
 
@@ -30,13 +33,13 @@ nexusStaging {
 allprojects { project ->
 
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        mavenLocal()
     }
 
-    project.group = "org.paradisehell.convex"
-    project.version = "0.0.3"
+    project.group = project.rootProject.convex_group
+    project.version = project.rootProject.convex_version
 
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
@@ -46,6 +49,9 @@ allprojects { project ->
         def isAndroidApplication = project.plugins.hasPlugin("com.android.application")
         def isAndroidLibrary = project.plugins.hasPlugin("com.android.library")
         if (isRootProject || isAndroidApplication) {
+            return
+        }
+        if (project.name == "mylibrary") {
             return
         }
 
@@ -85,7 +91,7 @@ allprojects { project ->
                     version project.version
 
                     if (isAndroidLibrary) {
-                        from components.release
+                        //from components.release
                     } else {
                         from components.java
                     }
