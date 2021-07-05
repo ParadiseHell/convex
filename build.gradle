@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = "1.5.10"
     ext.convex_group = "org.paradisehell.convex"
-    ext.convex_version = "0.0.5"
+    ext.convex_version = "1.0.0"
     repositories {
         mavenLocal()
         google()
