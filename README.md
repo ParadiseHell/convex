@@ -48,9 +48,9 @@ And when define a service method they need to wrap business data with
 **BaseReponse** as following :
 
 ```kotlin
-interface XXXService {
-	@GET("xxx")
-	suspend fun xxx() : BaseResponse<XXX>
+interface UserService {
+	@GET("/users")
+	suspend fun getAllUsers() : BaseResponse<List<User>>
 }
 ```
 
@@ -81,7 +81,7 @@ dependencies {
 ### Implement a ConvexTansformer
 
 ```kotlin
-private class XXXConvexTransformer : ConvexTransformer {
+private class UserConvexTransformer : ConvexTransformer {
 	@Throws(IOException::class)
 	override fun transform(original: InputStream): InputStream {
 		TODO("Return the business data InputStream.")
@@ -93,7 +93,7 @@ private class XXXConvexTransformer : ConvexTransformer {
 
 ```kotlin
 Retrofit.Builder()
-	.baseUrl("https://xxx.com/")
+	.baseUrl("https://users.com/")
 	// add ConvexConverterFactory first !!!
 	.addConverterFactory(ConvexConverterFactory())
 	.addConverterFactory(GsonConverterFactory.create())
@@ -103,10 +103,10 @@ Retrofit.Builder()
 ### Define service method with `Transformer` annotation
 
 ```kotlin
-interface XXXService {
-	@GET("xxx")
-	@Transformer(XXXConvexTransformer::class)
-	suspend fun xxx() : XXX // No BaseResponse is needed anymore.👻👻👻
+interface UserService {
+	@GET("/users")
+	@Transformer(UserConvexTransformer::class)
+	suspend fun getAllUsers() : List<User> // No BaseResponse is needed anymore.👻👻👻
 }
 ```
 
@@ -151,10 +151,10 @@ apply plugin: "com.didiglobal.booster"
 ### Define service with `Transformer` annotation
 
 ```kotlin
-@Transformer(XXXConvexTransformer::class)
-interface XXXService {
-	@GET("xxx")
-	suspend fun xxx() : XXX // No BaseResponse is needed anymore.👻👻👻
+@Transformer(UserConvexTransformer::class)
+interface UserService {
+	@GET("/users")
+	suspend fun getAllUsers() : List<User> // No BaseResponse is needed anymore.👻👻👻
 }
 ```
 
@@ -162,11 +162,11 @@ If you do not want `ConvexTransformer` to work with some service methods, you
 can use `DisableTransformer` annotation with these method as following.
 
 ```kotlin
-@Transformer(XXXConvexTransformer::class)
-interface XXXService {
-	@GET("xxx")
-	@DisableTransformer // Convex will ignore XXXConvexTransformer
-	suspend fun xxx() : XXX 
+@Transformer(UserConvexTransformer::class)
+interface UserService {
+	@GET("/users")
+	@DisableTransformer // Convex will ignore UserConvexTransformer
+	suspend fun getAllUsers() : BaseResponse<List<User>>
 }
 ```
 
